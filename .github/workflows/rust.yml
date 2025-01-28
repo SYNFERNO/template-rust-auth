@@ -1,4 +1,7 @@
 name: Rust CI
+env:
+  DATABASE_URL: "postgresql://postgres:postgres@my-psql.orb.local:5432/rust_rest_auth"
+  PORT: "9191"
 
 on:
   push:
