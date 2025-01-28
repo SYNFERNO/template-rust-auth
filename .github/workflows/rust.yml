@@ -10,17 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Rust
-        uses: rust-lang/setup-rust@v1
+        uses: actions-rs/toolchain@v1
         with:
-          rust-version: stable
-          # For production: consider pinning to a specific version
-          # rust-version: 1.78.0
+          profile: minimal
+          toolchain: stable
+          override: true
 
       - name: Cache dependencies
-        uses: Swatinem/rust-cache@v2
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Build
         run: cargo build --release
