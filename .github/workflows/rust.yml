@@ -1,0 +1,26 @@
+name: Rust CI
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: Build Project
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: rust-lang/setup-rust@v1
+        with:
+          rust-version: stable
+          # For production: consider pinning to a specific version
+          # rust-version: 1.78.0
+
+      - name: Cache dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Build
+        run: cargo build --release
